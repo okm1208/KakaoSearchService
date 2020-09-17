@@ -1,0 +1,25 @@
+
+spring:
+  application:
+    name: kakaobank-search-service
+  datasource:
+    url: jdbc:h2:mem:searchdb
+    driver-class-name: org.h2.Driver
+    username: nick
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    database: H2
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2
+
+
+

@@ -16,11 +16,11 @@
 ```bash
 Using Maven: mvn package
 ```
-- [jar 파일 다운로드](https://github.com/okm1208/KakaoSearchService/releases/download/1.0.0/search-place-1.0.0.jar)
+- [jar 파일 다운로드](https://github.com/okm1208/KakaoSearchService/releases/download/1.0.0r1/search-place-1.0.0r1.jar)
 
 # Run
 ```bash
-java -jar ./target/search-place-1.0.0.jar
+java -jar ./target/search-place-1.0.0r1.jar
 ```
 # 서비스 접속 및 로그인 정보 
 ```bash

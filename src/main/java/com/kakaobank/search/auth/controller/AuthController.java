@@ -4,7 +4,9 @@ package com.kakaobank.search.auth.controller;
 import com.kakaobank.search.auth.model.LoginRequestVo;
 import com.kakaobank.search.auth.model.LoginResponseVo;
 import com.kakaobank.search.auth.model.TokenIssueVo;
+import com.kakaobank.search.auth.model.TokenReissueResponseVo;
 import com.kakaobank.search.auth.service.LoginAuthentication;
+import com.kakaobank.search.auth.service.LogoutService;
 import com.kakaobank.search.auth.service.impl.TokenIssueService;
 import com.kakaobank.search.common.model.CommonResponse;
 import io.swagger.annotations.Api;
@@ -31,6 +33,9 @@ public class AuthController {
     @Autowired
     private TokenIssueService tokenIssueService;
 
+    @Autowired
+    private LogoutService logoutService;
+
     @ApiOperation(value = "로그인 API")
     @PostMapping(value="/login")
     public CommonResponse<LoginResponseVo> login(@RequestBody @Valid LoginRequestVo loginRequestVo){
@@ -48,13 +53,16 @@ public class AuthController {
 
     @ApiOperation(value = "AccessToken 재발급 API" )
     @PostMapping(value="/token/reissue")
-    public CommonResponse reissueAccessToken(@RequestHeader(name = "Authorization") String refreshToken){
-        return CommonResponse.success(tokenIssueService.issueAccessTokenFromRefreshToken(refreshToken));
+    public CommonResponse<TokenReissueResponseVo> reissueAccessToken(@RequestHeader(name = "Authorization") String refreshToken){
+
+        TokenIssueVo token = tokenIssueService.issueAccessTokenFromRefreshToken(refreshToken);
+        return CommonResponse.success( new TokenReissueResponseVo(token.getToken(),token.getExpiresSec()));
     }
 
     @ApiOperation(value = "로그아웃 API")
     @PostMapping(value="/logout")
     public CommonResponse logout(@RequestHeader(name = "Authorization") String accessToken){
-        return CommonResponse.success(tokenIssueService.issueAccessTokenFromRefreshToken(accessToken));
+        logoutService.logout(accessToken);
+        return CommonResponse.success();
     }
 }

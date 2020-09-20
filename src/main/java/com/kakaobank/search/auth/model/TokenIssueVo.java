@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 /**
  *  @author 오경무 ( okm1208@gmail.com )
  *  @since : 2020-09-15
- *  description : 인증 확인이 필요한 요청을 필터한다.
+ *  description :
  */
 @Data
 @AllArgsConstructor

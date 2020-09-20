@@ -14,6 +14,7 @@ import com.kakaobank.search.common.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cglib.core.Local;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -90,7 +91,7 @@ public class TokenIssueService {
     }
 
     @Transactional
-    public String issueAccessTokenFromRefreshToken(String refreshToken){
+    public TokenIssueVo issueAccessTokenFromRefreshToken(String refreshToken){
 
         if(!StringUtils.isEmpty(refreshToken)){
             RawJwtToken rawRefreshToken = new RawJwtToken(refreshToken);
@@ -111,7 +112,9 @@ public class TokenIssueService {
             }
 
             AccountUserDetails accountUserDetails = new AccountUserDetails(foundAccount);
-            return JwtUtils.createAccessToken(accountUserDetails , LocalDateTime.now().plusMinutes(accessTokenExpiredMin));
+            LocalDateTime expiresDt=  LocalDateTime.now().plusMinutes(accessTokenExpiredMin);
+
+            return new TokenIssueVo(JwtUtils.createAccessToken(accountUserDetails , expiresDt),expiresDt);
         }else{
             throw new BadRequestException();
         }

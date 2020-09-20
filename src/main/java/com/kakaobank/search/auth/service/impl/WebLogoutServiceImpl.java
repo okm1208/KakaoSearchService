@@ -5,6 +5,7 @@ import com.kakaobank.search.auth.service.LogoutService;
 import com.kakaobank.search.auth.token.RawJwtToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -19,6 +20,7 @@ public class WebLogoutServiceImpl implements LogoutService {
     private TokenIssueService tokenIssueService;
 
     @Override
+    @Transactional
     public void logout(String accessToken) {
 
         RawJwtToken rawAccessToken = new RawJwtToken(accessToken);

@@ -6,7 +6,7 @@
         .run(run);
 
     function config($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.otherwise("/index.html");
+        $urlRouterProvider.otherwise("/");
 
         $stateProvider
             .state('search', {

@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -44,12 +45,13 @@ public class LoginWebLayerTests {
 
     private String adminUserId = "admin";
 
+    private String authLoginUrl = "/auth/login";
     @Test
     public void 로그인_파라미터_유효성_테스트()throws Exception{
 
         LoginRequestVo request = new LoginRequestVo();
         this.mockMvc.perform(
-                            post("/auth/login")
+                            post(authLoginUrl)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(asJsonString(request)))
                         .andDo(print())
@@ -58,7 +60,7 @@ public class LoginWebLayerTests {
         request.setUserId(adminUserId);
 
         this.mockMvc.perform(
-                post("/auth/login")
+                post(authLoginUrl)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(request)))
 
@@ -73,7 +75,7 @@ public class LoginWebLayerTests {
         given(accountRepository.findByUserId(eq(adminUserId))).willReturn(null);
 
         this.mockMvc.perform(
-                post("/auth/login")
+                post(authLoginUrl)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(request)))
                 .andDo(print())
@@ -88,7 +90,7 @@ public class LoginWebLayerTests {
         given(accountRepository.findByUserId(eq(adminUserId))).willReturn(passwordInvalidAccount);
 
         this.mockMvc.perform(
-                post("/auth/login")
+                post(authLoginUrl)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(request)))
                 .andDo(print())
@@ -98,7 +100,7 @@ public class LoginWebLayerTests {
         given(accountRepository.findByUserId(eq(adminUserId))).willReturn(passiveAccount);
 
         this.mockMvc.perform(
-                post("/auth/login")
+                post(authLoginUrl)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(request)))
                 .andDo(print())
@@ -116,7 +118,7 @@ public class LoginWebLayerTests {
         given(accountRepository.findByUserId(eq(adminUserId))).willReturn(validAccount);
 
         this.mockMvc.perform(
-                post("/auth/login")
+                post(authLoginUrl)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(request)))
                 .andDo(print())

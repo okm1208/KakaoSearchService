@@ -70,7 +70,7 @@ public class LogoutTests {
 
     @BeforeEach
     public void init(){
-        //객체 초기화
+        //mock 계정 초기화
         this.mockAccount = new Account();
         this.mockAccount.setUserId(userId);
         this.refreshToken = new RefreshToken();

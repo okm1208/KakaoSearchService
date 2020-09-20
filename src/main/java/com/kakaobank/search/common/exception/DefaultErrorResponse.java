@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 public enum DefaultErrorResponse implements ErrorResponse {
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "BadRequest", "유효하지 않은 파라미티 입니다."),
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "NotAuthenticated", "인증이 필요한 서비스 입니다."),
-    FORBIDDEN(HttpStatus.FORBIDDEN, "Not Authorized", "접근 권한이 없습니다."),
+    FORBIDDEN(HttpStatus.FORBIDDEN, "NotAuthorized", "접근 권한이 없습니다."),
     NOT_FOUND(HttpStatus.NOT_FOUND, "Resource Not Found", "존재 하지 않는 주소 입니다."),
     DATA_NOT_FOUND(HttpStatus.NOT_FOUND, "Data Not Found", "조회 하려는 데이터가 없습니다."),
     METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "Not allowed method", "허용되지 않는 메서드 타입 입니다."),

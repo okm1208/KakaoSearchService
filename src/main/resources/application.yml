@@ -38,7 +38,6 @@ external:
     rest-api-key: "KakaoAK 5c155fd8f7f3f0b64a336648b1c77617"
     place-search-base-url: "https://dapi.kakao.com/v2/local/search/keyword.json"
 
-
 logging:
   level:
     root: WARN

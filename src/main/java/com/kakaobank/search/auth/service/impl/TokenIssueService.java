@@ -33,9 +33,9 @@ import java.util.List;
 @Slf4j
 public class TokenIssueService {
 
-    @Value("${auth.token.expired-minute.access-token}")
+    @Value("${auth.token.expired-minute.access-token:30}")
     private Integer accessTokenExpiredMin;
-    @Value("${auth.token.expired-minute.refresh-token}")
+    @Value("${auth.token.expired-minute.refresh-token:60}")
     private Integer refreshTokenExpiredMin;
 
     @Autowired

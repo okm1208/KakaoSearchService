@@ -1,7 +1,10 @@
 package com.kakaobank.search.common.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  *  @author 오경무 ( okm1208@gmail.com )
  *  @since : 2020-09-15
@@ -9,6 +12,8 @@ import lombok.Data;
  */
 @Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CommonResponse<T> {
     private String message;
     private T data;

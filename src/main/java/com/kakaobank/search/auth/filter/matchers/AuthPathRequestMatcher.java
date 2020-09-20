@@ -7,7 +7,11 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
-
+/**
+ *  @author 오경무 ( okm1208@gmail.com )
+ *  @since : 2020-09-15
+ *
+ */
 public class AuthPathRequestMatcher implements RequestMatcher {
 
     private OrRequestMatcher processingMatcher;

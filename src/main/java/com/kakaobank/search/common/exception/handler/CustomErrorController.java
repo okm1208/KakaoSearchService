@@ -4,7 +4,10 @@ import com.kakaobank.search.common.exception.CustomBusinessException;
 import com.kakaobank.search.common.exception.DefaultErrorResponse;
 import com.kakaobank.search.common.exception.ErrorResponse;
 import com.kakaobank.search.common.exception.UnknownErrorResponse;
+import com.kakaobank.search.common.model.ErrorResponseEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -129,12 +132,6 @@ public class CustomErrorController implements ErrorController {
         errorResponseEntity.setType(errorResponse.getErrorType());
         errorResponseEntity.setMessage((!StringUtils.isEmpty(errorMessage)) ? errorMessage : errorResponse.getErrorMessage());
         return new ResponseEntity(errorResponseEntity, errorResponse.getStatus());
-    }
-
-    @Data
-    public class ErrorResponseEntity {
-        private String type;
-        private String message;
     }
 
 

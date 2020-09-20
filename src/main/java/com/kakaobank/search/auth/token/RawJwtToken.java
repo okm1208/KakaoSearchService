@@ -34,7 +34,6 @@ public class RawJwtToken implements Serializable {
             JwtUtils.verify(token);
         }catch(TokenExpiredException e){
             throw new AuthenticationException(ErrorMessageProperties.EXPIRED_ACCESS_TOKEN);
-//            throw e;
         }catch(JWTVerificationException e){
             throw new AuthenticationException( ErrorMessageProperties.INVALID_TOKEN);
         }

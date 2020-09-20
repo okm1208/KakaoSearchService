@@ -21,7 +21,7 @@
                         $scope.places = response.data.documents
 
                     }else if(!success){
-                        if( response.type == 'NotAuthenticated' || response.status == 'Not Authorized' ){
+                        if( response.type == 'NotAuthenticated' || response.status == 'NotAuthorized' ){
                             AuthenticationService.Logout()
                         }else{
                             alert("검색 실패 : "+response.errorMessage)

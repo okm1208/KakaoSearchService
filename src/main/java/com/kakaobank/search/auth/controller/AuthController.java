@@ -3,20 +3,26 @@ package com.kakaobank.search.auth.controller;
 
 import com.kakaobank.search.auth.model.LoginRequestVo;
 import com.kakaobank.search.auth.model.LoginResponseVo;
+import com.kakaobank.search.auth.model.TokenIssueVo;
 import com.kakaobank.search.auth.service.LoginAuthentication;
 import com.kakaobank.search.auth.service.impl.TokenIssueService;
 import com.kakaobank.search.common.model.CommonResponse;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+/**
+ *  @author 오경무 ( okm1208@gmail.com )
+ *  @since : 2020-09-15
+ *  description : 인증 컨트롤러
+ */
 
 @RestController
 @RequestMapping("/auth")
+@Api(tags = "인증 APIs")
 public class AuthController {
 
     @Autowired
@@ -25,16 +31,30 @@ public class AuthController {
     @Autowired
     private TokenIssueService tokenIssueService;
 
+    @ApiOperation(value = "로그인 API")
     @PostMapping(value="/login")
     public CommonResponse<LoginResponseVo> login(@RequestBody @Valid LoginRequestVo loginRequestVo){
 
         UserDetails userDetails = loginAuthentication.authenticate(loginRequestVo);
 
-        String refreshToken = tokenIssueService.issueRefreshToken(userDetails);
-        String accessToken = tokenIssueService.issueAccessToken(userDetails);
+        TokenIssueVo refreshToken = tokenIssueService.issueRefreshToken(userDetails);
+        TokenIssueVo accessToken = tokenIssueService.issueAccessToken(userDetails);
 
-        return CommonResponse.success(new LoginResponseVo(accessToken,refreshToken));
+        return CommonResponse.success(new LoginResponseVo(accessToken.getToken()
+                                        , accessToken.getExpiresSec()
+                                        , refreshToken.getToken()
+                                        , refreshToken.getExpiresSec()));
     }
 
+    @ApiOperation(value = "AccessToken 재발급 API" )
+    @PostMapping(value="/token/reissue")
+    public CommonResponse reissueAccessToken(@RequestHeader(name = "Authorization") String refreshToken){
+        return CommonResponse.success(tokenIssueService.issueAccessTokenFromRefreshToken(refreshToken));
+    }
 
+    @ApiOperation(value = "로그아웃 API")
+    @PostMapping(value="/logout")
+    public CommonResponse logout(@RequestHeader(name = "Authorization") String accessToken){
+        return CommonResponse.success(tokenIssueService.issueAccessTokenFromRefreshToken(accessToken));
+    }
 }

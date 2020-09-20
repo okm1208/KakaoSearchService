@@ -7,7 +7,11 @@ package com.kakaobank.search.common.exception;
 import org.springframework.http.HttpStatus;
 
 import java.util.stream.Stream;
-
+/**
+ *  @author 오경무 ( okm1208@gmail.com )
+ *  @since : 2020-09-15
+ *  description :
+ */
 public interface ErrorResponse {
     HttpStatus getStatus();
 

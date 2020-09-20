@@ -1,36 +1,33 @@
-package com.kakaobank.search.auth;
+package com.kakaobank.search.auth.login;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakaobank.search.account.entity.Account;
 import com.kakaobank.search.account.repository.AccountRepository;
 import com.kakaobank.search.auth.model.LoginRequestVo;
-import com.kakaobank.search.auth.userdetails.AccountDetailsService;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.Arrays;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.*;
+import static org.hamcrest.Matchers.*;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+/**
+ *  @author 오경무 ( okm1208@gmail.com )
+ *  @since : 2020-09-15
+ *  description : 로그인 API 테스트
+ */
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -42,8 +39,10 @@ public class LoginWebLayerTests {
     @MockBean
     private AccountRepository accountRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     private String adminUserId = "admin";
-    private String validEncodedPassword = "$2a$10$cBGaBw4qj6f5GH1KYDQ2HO.C4OY42O89XF/g7iU1Mau5lyac/vcCm";
 
     @Test
     public void 로그인_파라미터_유효성_테스트()throws Exception{
@@ -108,6 +107,9 @@ public class LoginWebLayerTests {
 
     @Test
     public void 로그인_성공()throws Exception{
+
+        String validEncodedPassword = passwordEncoder.encode("admin");
+
         LoginRequestVo request =makeDefaultLoginRequestVo(adminUserId,"admin");
         Account validAccount =  makeMockAccount(adminUserId , validEncodedPassword , true);
 
@@ -118,7 +120,12 @@ public class LoginWebLayerTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(request)))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data", is(not(empty()))))
+                .andExpect(jsonPath("$.data.accessToken", is(not(empty()))))
+                .andExpect(jsonPath("$.data.expireSec", is(not(empty()))))
+                .andExpect(jsonPath("$.data.refreshToken", is(not(empty()))))
+                .andExpect(jsonPath("$.data.refreshTokenExpireSec", is(not(empty()))));
 
     }
 
@@ -127,7 +134,7 @@ public class LoginWebLayerTests {
         account.setUserId(userId);
         account.setPassword(password);
         account.setActive(active);
-        account.setRoles(Arrays.asList(Account.AccountAuthority.ADMIN));
+        account.setRoles(Arrays.asList(Account.AccountAuthority.ROLE_ADMIN));
         return account;
     }
     private LoginRequestVo makeDefaultLoginRequestVo(String userId, String password){

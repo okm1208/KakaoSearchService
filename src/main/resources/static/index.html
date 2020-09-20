@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <title>장소 검색 서비스</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- main app container -->
+    <div class="jumbotron">
+        <div class="container">
+            <div class="col-sm-12">
+                <ui-view></ui-view>
+            </div>
+        </div>
+    </div>
+
+    <!-- angular scripts -->
+    <script src="js/angularjs/1.5.3/angular.min.js"></script>
+    <script src="js/angularjs/1.5.3/angular-messages.min.js"></script>
+    <script src="js/angular-ui-router.0.2.18/angular-ui-router.min.js"></script>
+    <script src="js/angularjs/1.6.1/angular-animate.js"></script>
+    <script src="js/angularjs/1.6.1/angular-sanitize.js"></script>
+    <script src="js/ngStorage.0.3.6/ngStorage.min.js"></script>
+    <script src="js/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
+
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=61407fe6440311d1ffe846aa2747ede6"></script>
+
+    <!-- application scripts -->
+    <script src="app.js"></script>
+    <script src="service/common/authentication.service.js"></script>
+    <script src="service/common/search-keyword.service.js"></script>
+    <script src="service/search/search.controller.js"></script>
+    <script src="service/login/login.controller.js"></script>
+    <script src="service/search-info/search-info.controller.js"></script>
+
+</body>
+</html>

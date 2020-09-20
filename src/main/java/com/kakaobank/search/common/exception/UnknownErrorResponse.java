@@ -7,11 +7,15 @@ package com.kakaobank.search.common.exception;
 import org.springframework.http.HttpStatus;
 
 import java.util.Optional;
-
+/**
+ *  @author 오경무 ( okm1208@gmail.com )
+ *  @since : 2020-09-15
+ *  description :
+ */
 public class UnknownErrorResponse implements ErrorResponse {
     private HttpStatus status;
 
-    UnknownErrorResponse(int status) {
+    public UnknownErrorResponse(int status) {
         this.status = HttpStatus.valueOf(status);
     }
 

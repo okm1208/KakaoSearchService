@@ -4,7 +4,11 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-
+/**
+ *  @author 오경무 ( okm1208@gmail.com )
+ *  @since : 2020-09-15
+ *  description :  Refresh Token Entity
+ */
 @Table(name = "refresh_token")
 @Entity
 @Data
@@ -13,10 +17,10 @@ public class RefreshToken {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer refreshTokenId;
 
-    @Column
+    @Column(length = 30, nullable = false)
     private String userId;
-    @Column
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String refreshToken;
-    @Column
-    private LocalDateTime expireDt;
+    @Column(nullable = false)
+    private LocalDateTime expiresDt;
 }

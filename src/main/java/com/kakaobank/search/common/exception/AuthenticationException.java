@@ -6,16 +6,17 @@ package com.kakaobank.search.common.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
+/**
+ *  @author 오경무 ( okm1208@gmail.com )
+ *  @since : 2020-09-15
+ *  description :
+ */
 @ResponseStatus(HttpStatus.UNAUTHORIZED)
 public class AuthenticationException extends CustomBusinessException {
     private static final DefaultErrorResponse defaultErrorResponse = DefaultErrorResponse.UNAUTHORIZED;
 
-    public AuthenticationException() {
-        super(defaultErrorResponse);
-    }
 
-    private AuthenticationException(String message) {
+    public AuthenticationException(String message) {
         super(CustomizableErrorResponse.of(defaultErrorResponse, message));
     }
 

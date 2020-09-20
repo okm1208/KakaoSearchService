@@ -8,23 +8,21 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.kakaobank.search.auth.userdetails.AccountUserDetails;
+import com.kakaobank.search.common.config.ErrorMessageProperties;
+import com.kakaobank.search.common.config.JwtProperties;
 import com.kakaobank.search.common.exception.AuthorityException;
+import com.kakaobank.search.common.exception.InternalServerException;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
-
 /**
- * 설명 : XXXXXXXX
- *
- * @author 오경무/SKTECHX (km.oh@sk.com)
- * @date 2020. 05. 12.
+ *  @author 오경무 ( okm1208@gmail.com )
+ *  @since : 2020-09-15
+ *  description : JwtUtils
  */
 public class JwtUtils {
-
-    private static final String ISSUER = "kakaobank";
-    private static final String TOKEN_SECRET = "token-secret";
 
     public static String createAccessToken(UserDetails userDetails ,LocalDateTime expireDt) {
         return createToken(userDetails, expireDt );
@@ -57,8 +55,9 @@ public class JwtUtils {
                 authoritiesArray = userDetails.getAuthorities().stream().map(auth->auth.getAuthority()).toArray(String[]::new);
 
                 return JWT.create()
-                        .withIssuer(ISSUER)
+                        .withIssuer(JwtProperties.ISSUER)
                         .withClaim("userId", userId )
+                        .withClaim("active" , true)
                         .withArrayClaim("authorities", authoritiesArray)
                         .withExpiresAt(Date.from(expireDt.toInstant(ZoneOffset.ofHours(9))))
                         .sign(getAlgorithm());
@@ -66,13 +65,13 @@ public class JwtUtils {
                 throw new AuthorityException();
             }
         } catch (JWTCreationException createEx) {
-            return null;
+            throw InternalServerException.of(ErrorMessageProperties.CREATE_TOKEN_FAILED + " : " + createEx.getMessage());
         }
     }
 
     private static Algorithm getAlgorithm() {
         try {
-            return Algorithm.HMAC256(TOKEN_SECRET);
+            return Algorithm.HMAC256(JwtProperties.TOKEN_SECRET);
         } catch (IllegalArgumentException e) {
             return Algorithm.none();
         }

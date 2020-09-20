@@ -1,0 +1,48 @@
+﻿<div >
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">장소 상세 정보</h3>
+    </div>
+    <div class="modal-body" id="modal-body" ng-init="init()">
+
+        <table class="table table-striped">
+            <tbody>
+            <tr>
+                <td>장소</td>
+                <td>{{ place.place_name }}</td>
+            </tr>
+            <tr>
+                <td>지번</td>
+                <td>{{ place.address_name }}</td>
+            </tr>
+
+            <tr>
+                <td>도로명 주소</td>
+                <td>{{ place.road_address_name }}</td>
+            </tr>
+            <tr>
+                <td>전화번호</td>
+                <td>{{ place.phone }}</td>
+            </tr>
+            <tr>
+                <td>카카오 맵 주소</td>
+                <td>
+                    <a href=" https://map.kakao.com/link/map/{{place.place_name}},{{place.y}},{{place.x}}" target="_blank">{{place.place_name}}</a>
+                </td>
+            </tr>
+<!--            <tr>-->
+<!--                <td>위치</td>-->
+<!--                <td>-->
+<!--                    <div id="map" style="width:500px;height:400px;"></div>-->
+<!--                </td>-->
+<!--            </tr>-->
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+</div>
+

@@ -8,6 +8,11 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ *  @author 오경무 ( okm1208@gmail.com )
+ *  @since : 2020-09-15
+ *  description : 계정 Entity
+ */
 @Table(name="account")
 @Entity
 @Data
@@ -28,14 +33,11 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
 
-    //@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST , orphanRemoval = true)
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="account_authorities" ,joinColumns = @JoinColumn(name = "userNo") )
-//    @JoinColumn(name = "userNo")
     @Enumerated(EnumType.STRING)
     @Column(name = "authority")
     private List<AccountAuthority> roles;
-
 
     @OneToMany(fetch = FetchType.LAZY)
     private List<RefreshToken> refreshTokens;
@@ -50,11 +52,25 @@ public class Account {
     }
 
     public enum AccountAuthority implements GrantedAuthority {
-        ADMIN, USER;
+        ROLE_ADMIN, ROLE_USER;
 
         @Override
         public String getAuthority() {
             return this.name();
+        }
+
+        @Override
+        public String toString(){
+            return this.name();
+        }
+
+        public static AccountAuthority findByName(String name){
+            for(AccountAuthority v : values()){
+                if( v.name().equals(name)){
+                    return v;
+                }
+            }
+            return null;
         }
     }
 }

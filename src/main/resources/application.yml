@@ -1,3 +1,9 @@
+server:
+  port: 8080
+  error:
+    path: /error
+    whitelabel:
+      enabled: false
 
 spring:
   application:
@@ -5,8 +11,8 @@ spring:
   datasource:
     url: jdbc:h2:mem:searchdb
     driver-class-name: org.h2.Driver
-    username: nick
-    password: password
+    username: admin
+    password: admin5678
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     database: H2
@@ -21,5 +27,20 @@ spring:
       enabled: true
       path: /h2
 
+auth:
+  token:
+    expired-minute:
+      access-token: 60
+      refresh-token: 120
+
+external:
+  kakao:
+    rest-api-key: "KakaoAK 5c155fd8f7f3f0b64a336648b1c77617"
+    place-search-base-url: "https://dapi.kakao.com/v2/local/search/keyword.json"
 
 
+logging:
+  level:
+    root: WARN
+    org.springframework: INFO
+    org.springframework.web.client.RestTemplate: INFO

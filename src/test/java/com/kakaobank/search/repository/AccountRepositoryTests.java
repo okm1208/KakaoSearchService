@@ -14,7 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ *  @author 오경무 ( okm1208@gmail.com )
+ *  @since : 2020-09-15
+ *  description : 계정 저장 및 조회 테스트
+ */
 @DataJpaTest
 @Transactional
 @Import(value = {BCryptPasswordEncoder.class})
@@ -41,46 +45,6 @@ public class AccountRepositoryTests {
 
         assertEquals(true, retrivedAccount.isActive());
         assertTrue(passwordEncoder.matches("nick_password",account.getPassword()));
-        assertEquals("ACTIVE" , retrivedAccount.getStatus());
-    }
-
-    @Test
-    public void bcrypt(){
-        System.out.println(passwordEncoder.encode("admin"));
-    }
-
-    @Test
-    public void 계정_권한_저장_테스트(){
-        Account account = accountRepository.findByUserId("admin");
-
-        System.out.println(account);
-//        Account account = new Account();
-//        account.setUserId("nick_test");
-//        account.setActive(true);
-//        account.setStatus(Account.AccountStatus.ACTIVE);
-//
-//        account.setPassword(passwordEncoder.encode("nick_password"));
-//        accountRepository.save(account);
-//
-//
-//        account.setRoles(Arrays.asList(Account.AccountAuthority.ADMIN));
-
-
-//        AccountRole addRole = new AccountRole();
-//        addRole.setUserNo(account.getUserNo());
-//        addRole.setAuthority("ADMIN");
-//        account.setRoles(Arrays.asList(addRole));
-
-
-//        Account retrivedAccount = accountRepository.findById(account.getUserNo()).orElseGet(null);
-//        assertNotNull(retrivedAccount);
-//
-//        assertNotNull(retrivedAccount.getRoles());
-//        assertEquals(1,retrivedAccount.getRoles().size() );
-//
-//        retrivedAccount.setRoles(null);
-//
-//        Account emptyRoleAccount = accountRepository.findById(account.getUserNo()).orElseGet(null);
-//        assertNull(emptyRoleAccount.getRoles());
+        assertEquals("ACTIVE" , retrivedAccount.getStatus().name());
     }
 }

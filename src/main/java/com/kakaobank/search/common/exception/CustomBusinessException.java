@@ -5,13 +5,15 @@
 package com.kakaobank.search.common.exception;
 
 import lombok.Getter;
+
+/**
+ *  @author 오경무 ( okm1208@gmail.com )
+ *  @since : 2020-09-15
+ *  description :
+ */
 public class CustomBusinessException extends RuntimeException {
     @Getter
     protected ErrorResponse errorResponse;
-
-    protected CustomBusinessException(String message, Throwable cause) {
-        super(message, cause);
-    }
 
     public CustomBusinessException(ErrorResponse errorResponse) {
         super(errorResponse.getErrorMessage());

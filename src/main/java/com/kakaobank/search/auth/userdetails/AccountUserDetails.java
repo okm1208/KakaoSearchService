@@ -1,22 +1,32 @@
 package com.kakaobank.search.auth.userdetails;
 
 import com.kakaobank.search.account.entity.Account;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
-
+import java.util.List;
+/**
+ *  @author 오경무 ( okm1208@gmail.com )
+ *  @since : 2020-09-15
+ *  description : Custom UserDetails
+ */
 public class AccountUserDetails implements UserDetails{
 
 	private Account account;
     
     public AccountUserDetails(Account account){
+    	if(account == null){
+    		throw new RuntimeException();
+		}
     	this.account = account;
     }
 
-
-
 	@Override
-	public Collection<Account.AccountAuthority> getAuthorities() {
+	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return account.getRoles();
 	}
 

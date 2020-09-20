@@ -2,6 +2,7 @@ package com.kakaobank.search.auth.userdetails;
 
 import com.kakaobank.search.account.entity.Account;
 import com.kakaobank.search.account.repository.AccountRepository;
+import com.kakaobank.search.common.config.ErrorMessageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,7 +26,7 @@ public class AccountDetailsService implements UserDetailsService{
 
 		Account account = accountRepository.findByUserId(userId);
 		if(account == null){
-			throw new UsernameNotFoundException("존재하지 않은 사용자 입니다.");
+			throw new UsernameNotFoundException(ErrorMessageProperties.ACCOUNT_NOT_FOUND);
 		}
 		return new AccountUserDetails(account);
 	}

@@ -1,6 +1,8 @@
 package com.kakaobank.search.auth.userdetails;
 
 import com.kakaobank.search.account.entity.Account;
+import com.kakaobank.search.common.config.ErrorMessageProperties;
+import com.kakaobank.search.common.exception.AuthorityException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +22,7 @@ public class AccountUserDetails implements UserDetails{
     
     public AccountUserDetails(Account account){
     	if(account == null){
-    		throw new RuntimeException();
+    		throw  AuthorityException.of(ErrorMessageProperties.ACCOUNT_NOT_FOUND);
 		}
     	this.account = account;
     }

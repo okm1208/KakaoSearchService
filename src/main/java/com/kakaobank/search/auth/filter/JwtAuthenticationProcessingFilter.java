@@ -37,8 +37,6 @@ import com.kakaobank.search.auth.token.RawJwtToken;
 @Slf4j
 public class JwtAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
 
-    private AuthenticationFailureHandler failureHandler;
-
     public JwtAuthenticationProcessingFilter(RequestMatcher matcher ){
         super(matcher);
     }
@@ -70,7 +68,6 @@ public class JwtAuthenticationProcessingFilter extends AbstractAuthenticationPro
                                               AuthenticationException failed) throws IOException, ServletException, AuthenticationException {
         SecurityContextHolder.clearContext();
         throw failed;
-//        failureHandler.onAuthenticationFailure(request, response, failed);
     }
 
 

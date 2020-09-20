@@ -6,6 +6,7 @@ import com.kakaobank.search.auth.token.JwtAuthenticationToken;
 import com.kakaobank.search.auth.token.RawJwtToken;
 import com.kakaobank.search.common.config.ErrorMessageProperties;
 import com.kakaobank.search.common.exception.AuthorityException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,7 @@ import org.springframework.util.CollectionUtils;
  *  @since : 2020-09-15
  *  description : 토큰의 유효성 검사한다.
  */
+@Slf4j
 public class JwtAuthenticationProvider implements AuthenticationProvider {
 
     @Override
@@ -29,6 +31,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException(ErrorMessageProperties.INVALID_ACCOUNT);
         }
         if(CollectionUtils.isEmpty(account.getRoles())){
+            log.warn("token provider role is empty : {}",account.getUserId());
             throw AuthorityException.of(ErrorMessageProperties.EMPTY_AUTHORITIES);
         }
         AccountUserDetails customUserDetails = new AccountUserDetails(account);

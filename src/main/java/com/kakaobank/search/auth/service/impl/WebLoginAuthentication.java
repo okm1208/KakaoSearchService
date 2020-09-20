@@ -5,6 +5,7 @@ import com.kakaobank.search.auth.model.LoginRequestVo;
 import com.kakaobank.search.auth.service.LoginAuthentication;
 import com.kakaobank.search.auth.userdetails.AccountUserDetails;
 import com.kakaobank.search.common.config.ErrorMessageProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
  *  description : 웹 기반 인증 요청을 처리 한다.
  */
 @Service
+@Slf4j
 public class WebLoginAuthentication implements LoginAuthentication {
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -35,9 +37,11 @@ public class WebLoginAuthentication implements LoginAuthentication {
         AccountUserDetails userDetails = (AccountUserDetails) userDetailsService.loadUserByUsername(userId);
 
         if(!matchPassword(password,userDetails.getPassword())){
+            log.warn("password miss match : {}", userId);
             throw new BadCredentialsException(ErrorMessageProperties.MISMATCH_PASSWORD);
         }
         if(!userDetails.isEnabled()){
+            log.warn("invalid user account try to login  : {}", userId);
             throw new BadCredentialsException(ErrorMessageProperties.INVALID_ACCOUNT);
         }
         return userDetails;

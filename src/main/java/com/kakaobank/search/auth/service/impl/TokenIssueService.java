@@ -58,7 +58,8 @@ public class TokenIssueService {
         Account account = accountRepository.findByUserId(userId);
 
         if(account == null ){
-            throw new UsernameNotFoundException(userId);
+            log.warn("not found account :{}", userId);
+            throw new UsernameNotFoundException(ErrorMessageProperties.ACCOUNT_NOT_FOUND);
         }
 
         List<RefreshToken> refreshTokenList = account.getRefreshTokens();
@@ -69,6 +70,7 @@ public class TokenIssueService {
                     refreshTokenList.stream().filter(refreshToken ->
                             LocalDateTime.now().isBefore(refreshToken.getExpiresDt())).findFirst().orElse(null);
             if(findValidRefreshToken != null){
+                log.debug("refresh token recycle : {},{}",userId,findValidRefreshToken.getRefreshToken());
                 return new TokenIssueVo(findValidRefreshToken.getRefreshToken(), findValidRefreshToken.getExpiresDt()) ;
             }
         }
@@ -81,6 +83,8 @@ public class TokenIssueService {
         refreshToken.setRefreshToken(JwtUtils.createRefreshToken(userDetails, expiresDt));
 
         refreshTokenRepository.save(refreshToken);
+
+        log.debug("refresh token new issue : {},{}",userId,refreshToken.getRefreshToken());
 
         return new TokenIssueVo(refreshToken.getRefreshToken(), expiresDt);
     }
@@ -102,6 +106,7 @@ public class TokenIssueService {
 
             List<Account.AccountAuthority> accountRoleList =  foundAccount.getRoles();
             if(CollectionUtils.isEmpty(accountRoleList)){
+                log.warn("account role is empty : {}" , foundAccount.getUserId());
                 throw AuthorityException.of(ErrorMessageProperties.EMPTY_AUTHORITIES);
             }
 
@@ -114,6 +119,7 @@ public class TokenIssueService {
 
     @Transactional
     public void expireAllRefreshTokenWhereUserId(String userId){
+        log.debug("expire all refresh token : {}",userId);
         refreshTokenRepository.updateExpiresDatetimeByUserId(userId,LocalDateTime.now());
 
     }

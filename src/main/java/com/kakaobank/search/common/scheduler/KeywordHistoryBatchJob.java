@@ -4,6 +4,7 @@ import com.kakaobank.search.history.entity.KeywordHistory;
 import com.kakaobank.search.history.entity.KeywordHistoryStatistics;
 import com.kakaobank.search.history.repository.KeywordHistoryRepository;
 import com.kakaobank.search.history.repository.KeywordHistoryStatisticsRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
  *  @since : 2020-09-15
  *  description : 장소 검색시 저장 되어 있는 키워드 누적 카운트 값 배치 처리
  */
+@Slf4j
 @Component
 public class KeywordHistoryBatchJob {
 
@@ -32,12 +34,13 @@ public class KeywordHistoryBatchJob {
     @Scheduled(cron = "0 0/10 * * * *")
     @Transactional
     public void keywordHistoryBachJob() {
-
+        log.info("keywordHistoryBachJob scheduler start.");
        List<KeywordHistory> keywordHistoryList =
             keywordHistoryRepository.findAllByRegDtBetween(LocalDateTime.now().minusHours(1) ,
                     LocalDateTime.now());
 
        if(!CollectionUtils.isEmpty(keywordHistoryList)){
+           log.info("process keywordHistoryList size : {}", keywordHistoryList.size());
            Map<String, Long> keywordCount =
                    keywordHistoryList.stream().collect(
                            Collectors.groupingBy(keywordHistory ->
@@ -51,6 +54,9 @@ public class KeywordHistoryBatchJob {
                keywordHistoryStatisticsRepository.save(keywordHistoryStatistics);
            });
        }
+       log.info("keywordHistoryBachJob scheduler end.");
+
+
     }
 
 }

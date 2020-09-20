@@ -71,6 +71,7 @@ public class CustomErrorController implements ErrorController {
 
             return this.handleException(errorResponse , businessException.getMessage());
         }else{
+
             HttpStatus errorHttpStatus = null;
             Integer errorStatus = errorResult != null ? (Integer)errorResult.get("status") : null;
             if(errorStatus != null){
@@ -79,7 +80,7 @@ public class CustomErrorController implements ErrorController {
             String errorMessage = null;
             if(error != null){
                 errorMessage = error.getMessage();
-                log.error("not catch exception message :{} \n{}",error.getMessage(), ExceptionUtils.getStackTrace(error));
+                log.error("Undefined exception message :{} \n{}",error.getMessage(), ExceptionUtils.getStackTrace(error));
             }
             ErrorResponse errorResponse = findCommonErrorCodeByDefaultException(error , errorHttpStatus);
             return this.handleException(errorResponse , errorMessage );

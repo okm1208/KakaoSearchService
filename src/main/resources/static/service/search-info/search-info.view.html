@@ -8,7 +8,9 @@
             <tbody>
             <tr>
                 <td>장소</td>
-                <td>{{ place.place_name }}</td>
+                <td><a href="https://place.map.kakao.com/{{place.id}}" target="_blank">
+                    {{ place.place_name }}</a>
+                </td>
             </tr>
             <tr>
                 <td>지번</td>
@@ -24,9 +26,12 @@
                 <td>{{ place.phone }}</td>
             </tr>
             <tr>
-                <td>카카오 맵 주소</td>
+                <td>맵 주소</td>
                 <td>
-                    <a href=" https://map.kakao.com/link/map/{{place.place_name}},{{place.y}},{{place.x}}" target="_blank">{{place.place_name}}</a>
+                    <a href="https://map.kakao.com/link/map/{{place.place_name}},{{place.y}},{{place.x}}"
+                       target="_blank">
+                        {{place.place_name}}
+                    </a>
                 </td>
             </tr>
 <!--            <tr>-->

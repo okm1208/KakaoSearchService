@@ -1,28 +1,21 @@
 package com.kakaobank.search.external.service.impl;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.kakaobank.search.common.exception.DataNotFoundException;
-import com.kakaobank.search.external.model.pageable.Meta;
+import com.kakaobank.search.external.model.kakao.pageable.Meta;
 import com.kakaobank.search.external.service.KakaoApiAbstract;
 import com.kakaobank.search.external.service.SearchApiService;
-import com.kakaobank.search.search.place.model.KakaoPlaceSearchRequestVo;
-import com.kakaobank.search.search.place.model.KakaoPlaceSearchResponseVo;
+import com.kakaobank.search.search.place.model.kakao.KakaoPlaceSearchRequestVo;
+import com.kakaobank.search.search.place.model.kakao.KakaoPlaceSearchResponseVo;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Collections;
-import java.util.List;
 
 /**
  *  @author 오경무 ( okm1208@gmail.com )

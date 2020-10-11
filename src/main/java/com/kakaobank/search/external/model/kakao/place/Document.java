@@ -1,4 +1,4 @@
-package com.kakaobank.search.external.model.place;
+package com.kakaobank.search.external.model.kakao.place;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

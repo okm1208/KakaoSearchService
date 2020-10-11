@@ -5,29 +5,62 @@
         .module('app')
         .controller('searchController',  function ($scope, $uibModal, $log, $document, SearchKeywordService, AuthenticationService ) {
             $scope.keyword = '';
+
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.maxSize = 10;
             $scope.selectedPlace = null;
             $scope.places = []
+
+            $scope.nPlaces = []
+            $scope.selectedNPlace = null;
             $scope.topKeywords = []
 
+            $scope.searchTargets = [
+                {name : "Kakao", value : 1},
+                {name : "Naver", value : 2}
+            ];
+
+            $scope.selectedSearchTarget = null;
 
             $scope.searchKeyword = function() {
-                SearchKeywordService.SearchKeyword($scope.keyword, $scope.currentPage, $scope.maxSize,function(success,response){
-                    if(success && response && response.data){
-                        var meta = response.data.meta;
-                        $scope.totalItems = meta.pageable_count
-                        $scope.places = response.data.documents
 
-                    }else if(!success){
-                        if( response.type == 'NotAuthenticated' || response.status == 'NotAuthorized' ){
-                            AuthenticationService.Logout()
-                        }else{
-                            alert("검색 실패 : "+response.errorMessage)
+                //select box 값으로 분기
+
+                if( $scope.selectedSearchTarget == '1') {
+                    SearchKeywordService.KakaoSearchKeyword($scope.keyword, $scope.currentPage, $scope.maxSize,function(success,response){
+                        if(success && response && response.data){
+                            var meta = response.data.meta;
+                            $scope.totalItems = meta.pageable_count
+                            $scope.places = response.data.documents
+
+                        }else if(!success){
+                            if( response.type == 'NotAuthenticated' || response.status == 'NotAuthorized' ){
+                                AuthenticationService.Logout()
+                            }else{
+                                alert("검색 실패 : "+response.errorMessage)
+                            }
                         }
-                    }
-                })
+                    })
+
+                }else{
+                    SearchKeywordService.NaverSearchKeyword($scope.keyword, $scope.currentPage, $scope.maxSize,function(success,response){
+                        if(success && response && response.data){
+                            // var meta = response.data.total;
+                            $scope.totalItems = response.data.total
+                            $scope.nPlaces = response.data.items
+                            console.log(response)
+
+                        }else if(!success){
+                            if( response.type == 'NotAuthenticated' || response.status == 'NotAuthorized' ){
+                                AuthenticationService.Logout()
+                            }else{
+                                alert("검색 실패 : "+response.errorMessage)
+                            }
+                        }
+                    });
+                }
+
             }
 
             $scope.init = function(){
@@ -42,6 +75,11 @@
             };
 
             $scope.animationsEnabled = true;
+            $scope.goToLink = function(link){
+                if(link){
+                    window.open(link, "_blank");
+                }
+            }
             $scope.searchViewInfo = function(place){
                 $scope.selectedPlace = place
                 $scope.modalOpen('lg')

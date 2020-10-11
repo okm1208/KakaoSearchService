@@ -1,9 +1,9 @@
-package com.kakaobank.search.search.place.model;
+package com.kakaobank.search.search.place.model.kakao;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.kakaobank.search.external.model.pageable.Meta;
-import com.kakaobank.search.external.model.place.Document;
+import com.kakaobank.search.external.model.kakao.pageable.Meta;
+import com.kakaobank.search.external.model.kakao.place.Document;
 import lombok.Data;
 
 import java.util.List;

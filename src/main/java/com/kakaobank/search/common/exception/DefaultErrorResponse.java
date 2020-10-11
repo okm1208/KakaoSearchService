@@ -19,8 +19,8 @@ public enum DefaultErrorResponse implements ErrorResponse {
     METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "Not allowed method", "허용되지 않는 메서드 타입 입니다."),
     NOT_ACCEPTABLE(HttpStatus.NOT_ACCEPTABLE, "Not acceptable", "접근을 허용하지 않습니다."),
     INVALID(HttpStatus.CONFLICT, "Invalid Business", "유효 하지 않은 요청입니다."),
-
     UNSUPPORTED_MEDIA_TYPE(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "Not allowed media-type", "혀용되지 않는 요청입니다."),
+    TOO_MANY_REQUESTS(HttpStatus.TOO_MANY_REQUESTS , "ToManyRequests", "호출 한도 초과 오류"),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Server Error", "일시 적인 오류가 발생 하였습니다. 잠시 후 다시 시도 해 주세요.");
 
     final HttpStatus status;

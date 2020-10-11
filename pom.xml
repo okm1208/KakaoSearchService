@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.kakaobank</groupId>
     <artifactId>search-place</artifactId>
-    <version>1.0.0r1</version>
+    <version>1.0.1</version>
     <name>search-place</name>
     <packaging>jar</packaging>
     <description>장소 검색 서비스</description>

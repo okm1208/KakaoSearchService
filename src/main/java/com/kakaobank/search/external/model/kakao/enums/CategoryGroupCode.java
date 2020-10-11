@@ -1,4 +1,4 @@
-package com.kakaobank.search.external.model.enums;
+package com.kakaobank.search.external.model.kakao.enums;
 
 /**
  *  @author 오경무 ( okm1208@gmail.com )

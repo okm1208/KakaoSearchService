@@ -37,6 +37,10 @@ external:
   kakao:
     rest-api-key: "KakaoAK 5c155fd8f7f3f0b64a336648b1c77617"
     place-search-base-url: "https://dapi.kakao.com/v2/local/search/keyword.json"
+  naver:
+    client-id: F8KCbIasIwi8P1QBrj7h
+    client-secret: M3cVsu2oAB
+    place-search-base-url: "https://openapi.naver.com/v1/search/local.json"
 
 hystrix:
   command:
@@ -46,11 +50,19 @@ hystrix:
       circuitBreaker:
         requestVolumeThreshold: 20
         errorThresholdPercentage: 50
-    # search 설정
+    # kakao search 설정
     kakaoSearchPlace:
       execution.isolation.thread.timeoutInMilliseconds: 5000
       circuitBreaker:
         requestVolumeThreshold: 10
+        errorThresholdPercentage: 50
+      metrics:
+        rollingStats:
+          timeInMillisencods: 10000
+    naverSearchPlace:
+      execution.isolation.thread.timeoutInMilliseconds: 5000
+      circuitBreaker:
+        requestVolumeThreshold: 20
         errorThresholdPercentage: 50
       metrics:
         rollingStats:

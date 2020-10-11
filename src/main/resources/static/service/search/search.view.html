@@ -4,6 +4,12 @@
     <form name="form" ng-submit="form.$valid && searchKeyword()" novalidate>
         <div class="form-group" ng-class="{ 'has-error': form.$submitted && form.keyword.$invalid }">
             <label for="keyword">검색 단어</label>
+            <div class="form-group">
+                <select ng-model="selectedSearchTarget"
+                        ng-init="selectedSearchTarget = selectedSearchTarget || searchTargets[0].value"
+                        ng-options="searchTarget.value as searchTarget.name for searchTarget in searchTargets">
+                </select>
+            </div>
             <input type="text" name="keyword" class="form-control" ng-model="keyword" required />
             <div ng-messages="form.$submitted && form.keyword.$error" class="help-block">
                 <div ng-message="required">keyword is required</div>
@@ -13,7 +19,9 @@
             <button ng-disabled="loginController.loading" class="btn btn-primary">검색</button>
             <img ng-if="loginController.loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
         </div>
+
     </form>
+
 
     <table class="table table-striped">
         <thead>
@@ -22,10 +30,15 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="place in places">
+        <tr ng-if="selectedSearchTarget == 1" ng-repeat="place in places">
             <td ng-click="searchViewInfo(place)">
                 <img [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag" class="mr-2" style="width: 20px">
                 {{ place.place_name }}
+            </td>
+        </tr>
+        <tr ng-if="selectedSearchTarget == 2" ng-repeat="nplace in nPlaces">
+            <td ng-click="goToLink(nplace.link)">
+                {{nplace.title}}
             </td>
         </tr>
         </tbody>
@@ -33,10 +46,10 @@
     <ul uib-pagination total-items="totalItems"
         ng-model="currentPage" ng-change="pageChanged()" max-size="maxSize"
         class="pagination-sm" boundary-link-numbers="true" rotate="false"> </ul>
-
-
-
     <p><a href="#/login">Logout</a></p>
+
+
+
 </div>
     <div class="form-group" style="margin-top: 15%">
         <label for="topKeyword">인기 검색어</label>

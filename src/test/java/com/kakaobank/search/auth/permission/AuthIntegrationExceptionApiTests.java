@@ -1,16 +1,13 @@
 package com.kakaobank.search.auth.permission;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakaobank.search.account.entity.Account;
 import com.kakaobank.search.account.entity.RefreshToken;
 import com.kakaobank.search.auth.userdetails.AccountUserDetails;
 import com.kakaobank.search.common.config.ErrorMessageProperties;
-import com.kakaobank.search.common.exception.handler.CustomErrorController;
 import com.kakaobank.search.common.model.CommonResponse;
 import com.kakaobank.search.common.model.ErrorResponseEntity;
 import com.kakaobank.search.common.utils.JwtUtils;
 import com.kakaobank.search.external.service.impl.KakaoPlaceKeywordSearchService;
-import com.kakaobank.search.search.place.model.KakaoPlaceSearchResponseVo;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,7 +51,7 @@ public class AuthIntegrationExceptionApiTests {
 
     @BeforeEach
     public void init(){
-        this.getSearchPlaceApiUrl =  "http://localhost:" + port + "/place/search";
+        this.getSearchPlaceApiUrl =  "http://localhost:" + port + "/place/kakao/search";
         //mock 계정 초기화
         this.mockAccount = new Account();
         this.mockAccount.setUserId(userId);

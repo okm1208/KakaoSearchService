@@ -1,4 +1,4 @@
-package com.kakaobank.search.search.place.model;
+package com.kakaobank.search.search.place.model.kakao;
 
 import lombok.Data;
 /**

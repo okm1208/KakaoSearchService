@@ -1,9 +1,10 @@
 package com.kakaobank.search.common.advice;
 
 
-import com.kakaobank.search.search.place.model.KakaoPlaceSearchRequestVo;
+import com.kakaobank.search.search.place.model.kakao.KakaoPlaceSearchRequestVo;
 import com.kakaobank.search.history.entity.KeywordHistory;
 import com.kakaobank.search.history.repository.KeywordHistoryRepository;
+import com.kakaobank.search.search.place.model.naver.NaverPlaceSearchRequestVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.annotation.Aspect;
@@ -27,14 +28,25 @@ public class KeywordHistoryAdvice {
 
     @Before("execution(* com.kakaobank.search.external.service.SearchApiService.search(..)) && args(request)")
     public void historySaveJoinPoint(Object request) {
+        String keyword = null;
+
         if(request instanceof KakaoPlaceSearchRequestVo){
             KakaoPlaceSearchRequestVo requestVo = (KakaoPlaceSearchRequestVo)request;
             if(!StringUtils.isEmpty(requestVo.getQuery())){
-                KeywordHistory keywordHistory = new KeywordHistory();
-                keywordHistory.setKeyword(requestVo.getQuery());
-                keywordHistory.setRegDt(LocalDateTime.now());
-                keywordHistoryRepository.save(keywordHistory);
+                keyword = requestVo.getQuery();
             }
+        }else if(request instanceof NaverPlaceSearchRequestVo){
+            NaverPlaceSearchRequestVo requestVo = (NaverPlaceSearchRequestVo)request;
+            if(!StringUtils.isEmpty(requestVo.getQuery())){
+                keyword = requestVo.getQuery();
+            }
+        }
+
+        if(keyword != null ){
+            KeywordHistory keywordHistory = new KeywordHistory();
+            keywordHistory.setKeyword(keyword);
+            keywordHistory.setRegDt(LocalDateTime.now());
+            keywordHistoryRepository.save(keywordHistory);
         }
     }
 }

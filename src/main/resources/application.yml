@@ -38,6 +38,23 @@ external:
     rest-api-key: "KakaoAK 5c155fd8f7f3f0b64a336648b1c77617"
     place-search-base-url: "https://dapi.kakao.com/v2/local/search/keyword.json"
 
+hystrix:
+  command:
+    # 전역 설정
+    default:
+      execution.isolation.thread.timeoutInMilliseconds: 10000
+      circuitBreaker:
+        requestVolumeThreshold: 20
+        errorThresholdPercentage: 50
+    # search 설정
+    kakaoSearchPlace:
+      execution.isolation.thread.timeoutInMilliseconds: 5000
+      circuitBreaker:
+        requestVolumeThreshold: 10
+        errorThresholdPercentage: 50
+      metrics:
+        rollingStats:
+          timeInMillisencods: 10000
 logging:
   level:
     root: WARN

@@ -3,6 +3,7 @@ package com.kakaobank.search;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 /**
  *  @author 오경무 ( okm1208@gmail.com )
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  *  description :
  */
 @EnableAspectJAutoProxy
+@EnableCircuitBreaker
 @SpringBootApplication
 public class SearchPlaceApplication extends SpringBootServletInitializer {
 
